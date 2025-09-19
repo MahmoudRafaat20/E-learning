@@ -15,7 +15,7 @@ const Login = () => {
             console.log("Full response:", response.data);
             if (response.data.success) {
                 toast.success(response.data.message || "Login Successful");
-                localStorage.setItem("user", JSON.stringify(response.data.data));
+                localStorage.setItem("user", JSON.stringify(response.data.token));
 
             } else {
                 toast.error("Login Failed");

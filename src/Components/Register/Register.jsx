@@ -28,7 +28,7 @@ const Register = () => {
 
       if (response.data.success) {
         toast.success(response.data.message || "Registration Successful");
-        localStorage.setItem("user", JSON.stringify(response.data.data));
+        localStorage.setItem("user", JSON.stringify(response.data.token));
 
         
         setTimeout(() => navigate('/login'), 2000);
