@@ -18,20 +18,28 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const result = await register(fullName, email, phoneNumber, classLevel, password, cpassword);
+    const result = await register(
+      fullName,
+      email,
+      phoneNumber,
+      classLevel,
+      password,
+      cpassword
+    );
     if (result.success) {
       setTimeout(() => navigate("/login"), 2000);
     }
   };
 
   return (
-    <div className="bg-gray-500 min-h-screen p-5">
+    <div className="min-h-screen p-5 flex align-center">
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="w-100 m-auto text-center p-5 text-white rounded-lg mt-5 bg-blue-950">
         <h1 className="my-2 font-medium">Register New account</h1>
         <form onSubmit={onSubmit}>
           <div className="mb-5">
-            <label className="font-semibold">Full Name</label><br />
+            <label className="font-semibold">Full Name</label>
+            <br />
             <input
               type="text"
               value={fullName}
@@ -41,7 +49,8 @@ const Register = () => {
             />
           </div>
           <div className="mb-5">
-            <label className="font-semibold">Email</label><br />
+            <label className="font-semibold">Email</label>
+            <br />
             <input
               type="email"
               value={email}
@@ -51,7 +60,8 @@ const Register = () => {
             />
           </div>
           <div className="mb-5">
-            <label className="font-semibold">Phone Number</label><br />
+            <label className="font-semibold">Phone Number</label>
+            <br />
             <input
               type="text"
               value={phoneNumber}
@@ -61,7 +71,8 @@ const Register = () => {
             />
           </div>
           <div className="mb-5">
-            <label className="font-semibold">Class Level</label><br />
+            <label className="font-semibold">Class Level</label>
+            <br />
             <input
               type="text"
               value={classLevel}
@@ -71,7 +82,8 @@ const Register = () => {
             />
           </div>
           <div className="mb-5">
-            <label className="font-semibold">Password</label><br />
+            <label className="font-semibold">Password</label>
+            <br />
             <input
               type="password"
               value={password}
@@ -81,7 +93,8 @@ const Register = () => {
             />
           </div>
           <div className="mb-5">
-            <label className="font-semibold">Confirm Password</label><br />
+            <label className="font-semibold">Confirm Password</label>
+            <br />
             <input
               type="password"
               value={cpassword}
@@ -90,7 +103,9 @@ const Register = () => {
               className="bg-white w-full p-2 rounded-lg outline-0 text-black"
             />
           </div>
-          <button type="submit" className="bg-green-900 w-full p-2 rounded-lg mt-5 font-semibold">
+          <button
+            type="submit"
+            className="bg-green-900 w-full p-2 rounded-lg mt-5 font-semibold">
             Register
           </button>
           <Link to="/login" className="text-blue-300 mt-3 block">
