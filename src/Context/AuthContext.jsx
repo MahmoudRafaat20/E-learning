@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     }
     try {
       const { data } = await axios.post(
-        "https://edu-master-delta.vercel.app/auth/signup",
+        "https://edu-master-psi.vercel.app/auth/signup",
         { fullName, email, phoneNumber, classLevel, password, cpassword }
       );
 
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const { data } = await axios.post(
-        "https://edu-master-delta.vercel.app/auth/login",
+        "https://edu-master-psi.vercel.app/auth/login",
         { email, password }
       );
 
