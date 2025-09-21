@@ -15,6 +15,7 @@ import Users from "../pages/admin/Users";
 
 import SuperAdminDashboard from "../pages/superadmin/SuperAdminDashboard";
 import Reports from "../pages/superadmin/Reports";
+import PaymentPage from "../pages/student/PaymentPage";
 
 const router = createBrowserRouter([
   // Auth area
@@ -63,7 +64,18 @@ const router = createBrowserRouter([
             <Profile />
           </PrivateRoute>
         ),
+        
       },
+      {
+        path: "/payment/:lessonId",
+        element: (
+          <PrivateRoute allow={["student"]}>
+            <PaymentPage/>
+          </PrivateRoute>
+        ),
+        
+      },
+      
 
       // Admin
       {

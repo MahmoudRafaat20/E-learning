@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 export const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
 
-// optional: decode role from token if your backend includes it later
 function tryExtractRoleFromToken(token) {
   try {
     const payload = JSON.parse(atob(token.split(".")[1] || ""));
@@ -16,13 +15,15 @@ function tryExtractRoleFromToken(token) {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // { token, email }
-  const [role, setRole] = useState("student"); // "student" | "admin" | "superadmin"
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState("student");
+  const [classLevel, setClassLevel] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(false);
 
-  // bootstrap from localStorage (supports your old shape too)
   useEffect(() => {
     const raw = localStorage.getItem("user");
     if (!raw) return;
+
     try {
       const parsed = JSON.parse(raw);
       if (parsed && typeof parsed === "object" && parsed.token) {
@@ -30,20 +31,13 @@ export const AuthProvider = ({ children }) => {
         setRole(
           parsed.role || tryExtractRoleFromToken(parsed.token) || "student"
         );
-      } else if (typeof parsed === "string") {
-        // legacy: stored just the token string
-        const upgraded = { token: parsed, email: undefined };
-        setUser(upgraded);
-        setRole(tryExtractRoleFromToken(parsed));
-        localStorage.setItem("user", JSON.stringify(upgraded));
+        setClassLevel(parsed.classLevel || null);
       }
     } catch {
-      // if something wrong, clear
       localStorage.removeItem("user");
     }
   }, []);
 
-  // attach/detach token to axios
   useEffect(() => {
     if (user?.token) {
       axios.defaults.headers.common.Authorization = `Bearer ${user.token}`;
@@ -52,7 +46,46 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user?.token]);
 
-  // ----------------- Register -----------------
+  const fetchUserProfile = async () => {
+    if (!user?.token) return null;
+
+    try {
+      setProfileLoading(true);
+      const response = await axios.get(
+        "https://edu-master-psi.vercel.app/user/",
+        {
+          headers: { token: user.token },
+        }
+      );
+
+      console.log("User Profile Response:", response.data);
+
+      if (response.data.success && response.data.user) {
+        const userProfile = response.data.user;
+        const updatedUser = {
+          ...user,
+          classLevel: userProfile.classLevel,
+          fullName: userProfile.fullName,
+          phoneNumber: userProfile.phoneNumber,
+          userId: userProfile._id, // إضافة userId إذا كان متوفراً
+        };
+
+        setUser(updatedUser);
+        setClassLevel(userProfile.classLevel);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        return userProfile;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      toast.error("Failed to fetch user data");
+      return null;
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
   const register = async (
     fullName,
     email,
@@ -65,6 +98,7 @@ export const AuthProvider = ({ children }) => {
       toast.error("Passwords do not match");
       return { success: false };
     }
+
     try {
       const { data } = await axios.post(
         "https://edu-master-psi.vercel.app/auth/signup",
@@ -72,66 +106,73 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data.success) {
-        toast.success(data.message || "Registration Successful");
+        toast.success("Registration successful");
 
-        // normalize to one shape (token + email + role)
         const userData = {
           token: data.token,
           email,
+          classLevel,
           role: tryExtractRoleFromToken(data.token),
         };
+
         setUser(userData);
         setRole(userData.role || "student");
+        setClassLevel(classLevel);
         localStorage.setItem("user", JSON.stringify(userData));
 
         return { success: true };
       } else {
-        toast.error(data.message || "Registration Failed");
+        toast.error(data.message || "Registration failed");
         return { success: false };
       }
     } catch (error) {
-      console.error("Register error:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Registration Failed");
+      console.error("Register error:", error);
+      toast.error(error.response?.data?.message || "Registration failed");
       return { success: false };
     }
   };
 
-  // ----------------- Login -----------------
+  // وتعديل دالة login لإضافة await قبل fetchUserProfile
   const login = async (email, password) => {
     try {
       const { data } = await axios.post(
         "https://edu-master-psi.vercel.app/auth/login",
         { email, password }
       );
-
+    
+       
       if (data.success) {
-        toast.success(data.message || "Login Successful");
+        toast.success("Login successful");
 
         const userData = {
           token: data.token,
           email,
           role: tryExtractRoleFromToken(data.token),
         };
+
         setUser(userData);
         setRole(userData.role || "student");
         localStorage.setItem("user", JSON.stringify(userData));
 
+        // الانتظار حتى ينتهي جلب ال profile
+        await fetchUserProfile();
+
         return { success: true };
       } else {
-        toast.error(data.message || "Login Failed");
+        toast.error(data.message || "Login failed");
         return { success: false };
       }
     } catch (error) {
-      console.error("Login error:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Login Failed");
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "Login failed");
       return { success: false };
     }
   };
 
-  // ----------------- Logout -----------------
   const logout = () => {
     setUser(null);
     setRole("student");
+    setClassLevel(null);
     localStorage.removeItem("user");
     toast.info("Logged out successfully");
   };
@@ -139,8 +180,10 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     role,
+    classLevel,
     isAuthenticated: !!user?.token,
-    setRole, // keep for now (lets you switch in UI until backend returns roles)
+    profileLoading,
+    fetchUserProfile,
     login,
     register,
     logout,
