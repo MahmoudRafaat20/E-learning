@@ -1,97 +1,125 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
 
-export default function AdminExams() {
-  const [exams, setExams] = useState([
-    {
-      id: "e1",
-      title: "Algebra Midterm",
-      lesson: "Intro to Algebra",
-      published: true,
-    },
-    {
-      id: "e2",
-      title: "Geometry Quiz",
-      lesson: "Advanced Geometry",
-      published: false,
-    },
-  ]);
+export default function ExamPage() {
+  const { user, role, isAuthenticated } = useAuth();
+  const token = user?.token;
 
-  const addExam = () => {
-    const title = prompt("Exam title?");
-    const lesson = prompt("Linked lesson?");
-    if (!title || !lesson) return;
-    setExams((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), title, lesson, published: false },
-    ]);
-  };
+  const [exams, setExams] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedExam, setSelectedExam] = useState(null);
 
-  const toggle = (id) => {
-    setExams((prev) =>
-      prev.map((e) => (e.id === id ? { ...e, published: !e.published } : e))
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setError("You must be logged in to view this page.");
+      return;
+    }
+    if (!["admin", "student", "user"].includes(role)) {
+      setError("You do not have permission to view this page.");
+      return;
+    }
+    fetchExams();
+  }, [isAuthenticated, role]);
+
+  async function fetchExams() {
+    if (!token) return setError("No token found");
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.get("https://edu-master-psi.vercel.app/exam", {
+        headers: { token },
+      });
+      const payload = res.data;
+      if (Array.isArray(payload)) setExams(payload);
+      else if (Array.isArray(payload.data)) setExams(payload.data);
+      else setExams(payload.exams || payload.items || []);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || "Failed to load");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-600">
+        <p>{error}</p>
+      </div>
     );
-  };
-
-  const remove = (id) => {
-    if (!confirm("Delete this exam?")) return;
-    setExams((prev) => prev.filter((e) => e.id !== id));
-  };
+  }
 
   return (
-    <div className="p-4 space-y-4">
-      <header className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Admin • Exams</h1>
-        <button
-          className="px-3 py-2 rounded bg-black text-white"
-          onClick={addExam}>
-          + New Exam
-        </button>
-      </header>
+    <div className="min-h-screen p-6 bg-gray-50">
+      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold text-gray-800">Exams</h1>
+          <button
+            onClick={fetchExams}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+          >
+            Refresh
+          </button>
+        </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="[&>th]:border-b [&>th]:py-2">
-              <th>Title</th>
-              <th>Lesson</th>
-              <th>Status</th>
-              <th style={{ width: 220 }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {exams.map((e) => (
-              <tr key={e.id} className="[&>td]:py-2 [&>td]:border-b">
-                <td>{e.title}</td>
-                <td>{e.lesson}</td>
-                <td>{e.published ? "Published" : "Draft"}</td>
-                <td className="space-x-2">
-                  <button
-                    className="px-2 py-1 rounded border"
-                    onClick={() => alert(`Edit ${e.title}`)}>
-                    Edit
-                  </button>
-                  <button
-                    className="px-2 py-1 rounded border"
-                    onClick={() => toggle(e.id)}>
-                    {e.published ? "Unpublish" : "Publish"}
-                  </button>
-                  <button
-                    className="px-2 py-1 rounded border text-red-600"
-                    onClick={() => remove(e.id)}>
-                    Delete
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100 text-left">
+                <th className="p-3 border">#</th>
+                <th className="p-3 border">Title</th>
+                <th className="p-3 border">Description</th>
+                <th className="p-3 border">Date</th>
               </tr>
-            ))}
-            {exams.length === 0 && (
-              <tr>
-                <td colSpan={4} className="py-8 text-center text-gray-500">
-                  No exams yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {loading && (
+                <tr>
+                  <td colSpan="4" className="p-6 text-center">
+                    <div className="flex justify-center">
+                      <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  </td>
+                </tr>
+              )}
+
+              {!loading && exams.length === 0 && (
+                <tr>
+                  <td colSpan="4" className="p-6 text-center text-gray-500">
+                    No exams found.
+                  </td>
+                </tr>
+              )}
+
+              {!loading &&
+                exams.length > 0 &&
+                exams.map((exam, idx) => (
+                  <tr key={exam._id || idx} className="odd:bg-white even:bg-gray-50">
+                    <td className="p-3 border">{idx + 1}</td>
+                    <td className="p-3 border">{exam.title || exam.name || "-"}</td>
+                    <td className="p-3 border">{exam.description || exam.desc || "-"}</td>
+                    <td className="p-3 border">{exam.date || exam.createdAt || "-"}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+
+        {selectedExam && (
+          <div className="mt-6 p-4 border rounded bg-gray-50">
+            <h2 className="text-xl font-semibold mb-2">Exam Details</h2>
+            <p><strong>Title:</strong> {selectedExam.title || selectedExam.name}</p>
+            <p><strong>Description:</strong> {selectedExam.description || selectedExam.desc}</p>
+            <p><strong>Date:</strong> {selectedExam.date || selectedExam.createdAt}</p>
+            <button
+              onClick={() => setSelectedExam(null)}
+              className="mt-3 px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
+            >
+              Close
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
