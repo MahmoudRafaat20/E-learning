@@ -12,36 +12,35 @@ const LessonsList = () => {
 
   const filters = ["All", "Free", "Paid"];
 
-
   // فلترة الدروس بناءً على الفلتر النشط
   const filteredLessons = useMemo(() => {
     if (!lessons) return [];
-    
+
     switch (activeFilter) {
-      case 'Free':
-        return lessons.filter(lesson => !lesson.isPaid);
-      case 'Paid':
-        return lessons.filter(lesson => lesson.isPaid);
-      case 'All':
+      case "Free":
+        return lessons.filter((lesson) => !lesson.isPaid);
+      case "Paid":
+        return lessons.filter((lesson) => lesson.isPaid);
+      case "All":
       default:
         return lessons;
     }
   }, [lessons, activeFilter]);
 
- const handleLessonClick = (lessonId) => {
-  console.log('Clicked lesson ID:', lessonId);
-  
-  // Filter lessons to find the one with matching ID
-  const selectedLesson = lessons.find(lesson => lesson._id === lessonId);
-  console.log('Selected lesson:', selectedLesson);
-  
-  if (selectedLesson) {
-    setSelectedLesson(selectedLesson);
-    setIsModalOpen(true);
-  } else {
-    console.error('Lesson not found with ID:', lessonId);
-  }
-};
+  const handleLessonClick = (lessonId) => {
+    console.log("Clicked lesson ID:", lessonId);
+
+    // Filter lessons to find the one with matching ID
+    const selectedLesson = lessons.find((lesson) => lesson._id === lessonId);
+    console.log("Selected lesson:", selectedLesson);
+
+    if (selectedLesson) {
+      setSelectedLesson(selectedLesson);
+      setIsModalOpen(true);
+    } else {
+      console.error("Lesson not found with ID:", lessonId);
+    }
+  };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -70,8 +69,7 @@ const LessonsList = () => {
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={refetch}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
-          >
+            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
             Try Again
           </button>
         </div>
@@ -94,14 +92,12 @@ const LessonsList = () => {
           </div>
           <button
             onClick={refetch}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
-          >
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
             <svg
               className="w-4 h-4"
               fill="none"
               stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+              viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -124,10 +120,8 @@ const LessonsList = () => {
                   activeFilter === filter
                     ? "bg-blue-600 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
+                }`}>
                 {filter}
-                
               </button>
             ))}
           </div>
@@ -144,8 +138,7 @@ const LessonsList = () => {
             </p>
             <button
               onClick={refetch}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
-            >
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
               Check Again
             </button>
           </div>
@@ -179,15 +172,13 @@ const LessonsList = () => {
                     <tr
                       key={lesson._id}
                       className="hover:bg-gray-200 transition-colors cursor-pointer"
-                      onClick={() => handleLessonClick(lesson._id)}
-                    >
+                      onClick={() => handleLessonClick(lesson._id)}>
                       {/* Lesson Title */}
                       <td className="px-6 py-4">
                         <div className="min-w-0">
                           <h4 className="text-sm font-semibold text-cyan-700 truncate">
                             {lesson.title}
                           </h4>
-                         
                         </div>
                       </td>
 
@@ -205,8 +196,7 @@ const LessonsList = () => {
                             className="w-4 h-4"
                             fill="none"
                             stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
+                            viewBox="0 0 24 24">
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -225,8 +215,7 @@ const LessonsList = () => {
                             lesson.isPaid
                               ? "bg-yellow-200 text-yellow-800"
                               : "bg-green-200 text-green-800"
-                          }`}
-                        >
+                          }`}>
                           {lesson.isPaid ? "Paid" : "Free"}
                         </span>
                       </td>

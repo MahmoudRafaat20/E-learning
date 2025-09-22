@@ -1,35 +1,46 @@
 // Central place to define links shown by role
 export const TOP_NAV = {
   student: [
-    { to: "/lessons", label: "Lessons" },
-    { to: "/exams", label: "Exams" },
-    { to: "/profile", label: "Profile" },
+    { to: "/student/lessons", label: "Lessons" },
+    { to: "/student/exams", label: "Exams" },
+    { to: "/student/profile", label: "Profile" },
   ],
   admin: [
-    { to: "/dashboard", label: "Dashboard" },
-    { to: "/users", label: "Users" },
+    { to: "/admin/dashboard", label: "Dashboard" },
+    { to: "/admin/lessons", label: "Lessons" },
+    { to: "/admin/exams", label: "Exams" },
+    { to: "/admin/questions", label: "Questions" },
+    { to: "/admin/allusers", label: "All Users" },
   ],
   superadmin: [
-    { to: "/admins", label: "Admins" },
-    { to: "/reports", label: "Reports" },
+    { to: "/superadmin/dashboard", label: "Dashboard" },
+    { to: "/superadmin/lessons", label: "Lessons" },
+    { to: "/superadmin/exams", label: "Exams" },
+    { to: "/superadmin/questions", label: "Questions" },
+    { to: "/superadmin/reports", label: "Reports" },
+    { to: "/superadmin/alladmins", label: "All Admins" },
   ],
 };
 
 export const SIDE_NAV = {
   student: [
-    { to: "/lessons", label: "Lessons" },
-    { to: "/exams", label: "Exams" },
-    { to: "/profile", label: "Profile" },
+    { to: "/student/lessons", label: "Lessons" },
+    { to: "/student/exams", label: "Exams" },
+    { to: "/student/profile", label: "Profile" },
   ],
   admin: [
-    { to: "/dashboard", label: "Overview" },
-    { to: "/users", label: "Users" },
-    { to: "/lessons", label: "Lessons" },
-    { to: "/exams", label: "Exams" },
+    { to: "/admin/dashboard", label: "Overview" },
+    { to: "/admin/allusers", label: "All Users" },
+    { to: "/admin/lessons", label: "Lessons" },
+    { to: "/admin/exams", label: "Exams" },
+    { to: "/admin/questions", label: "Questions" },
   ],
   superadmin: [
-    { to: "/admins", label: "Manage Admins" },
-    { to: "/reports", label: "Reports" },
-    { to: "/lessons", label: "Lessons" },
+    { to: "/superadmin/dashboard", label: "Overview" },
+    { to: "/superadmin/alladmins", label: "Manage Admins" },
+    { to: "/superadmin/reports", label: "Reports" },
+    { to: "/superadmin/lessons", label: "Lessons" },
+    { to: "/superadmin/exams", label: "Exams" },
+    { to: "/superadmin/questions", label: "Questions" },
   ],
 };
