@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
-const PaymentPage = (lesson) => {
+const PaymentPage = () => {
   const [country, setCountry] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("");
 
