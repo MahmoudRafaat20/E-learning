@@ -24,7 +24,8 @@ import SuperLessons from "../pages/superadmin/SuperLessons";
 import SuperExams from "../pages/superadmin/SuperExams";
 import SuperQuestions from "../pages/superadmin/SuperQuestions";
 import AllAdmins from "../pages/superadmin/AllAdmins";
-import LessonsList from "../pages/student/lessonsList";
+import LessonsList from "../pages/student/LessonsList";
+
 
 const router = createBrowserRouter([
   // Auth area
@@ -156,7 +157,7 @@ const router = createBrowserRouter([
             path: "lessons",
             element: (
               <PrivateRoute allow={["superadmin"]}>
-                <SuperLessons />
+               <SuperLessons/>
               </PrivateRoute>
             ),
           },
