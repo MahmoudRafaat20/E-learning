@@ -1,5 +1,6 @@
 import Stat from "../../Components/ui/Stat";
 import Table from "../../Components/ui/Table";
+import AdminLessons from "./AdminLessons";
 export default function AdminDashboard() {
   return (
     <div className="space-y-6">
@@ -11,15 +12,7 @@ export default function AdminDashboard() {
         <Stat title="Revenue" value="$5000" />
       </div>
       <section>
-        <h2 className="font-semibold mb-3">Lessons</h2>
-        <Table
-          columns={["ID", "Title", "Class", "Price", "Actions"]}
-          rows={
-            [
-              /* ... */
-            ]
-          }
-        />
+        <AdminLessons/>
       </section>
     </div>
   );
