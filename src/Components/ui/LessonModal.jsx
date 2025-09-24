@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const LessonModal = ({ lesson, isOpen, onClose }) => {
   const navigate = useNavigate();
   const [showVideo, setShowVideo] = useState(false);
+
 console.log(lesson);
 
   if (!isOpen || !lesson) return null;
@@ -24,9 +25,10 @@ console.log(lesson);
   };
 
   const handleEnroll = () => {
-    navigate(`/student/lessons/payment/:${lesson._id}`);
+    navigate(`/student/lessons/payment/:${lesson._id}`, { state: { lesson } });
     console.log(lesson._id);
-    
+
+
     onClose();
   };
 
@@ -60,7 +62,7 @@ console.log(lesson);
         <div className="p-6 overflow-y-auto max-h-[60vh]">
           <div className="space-y-4">
             {/* Video Thumbnail or Preview */}
-          
+
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Description</h3>
               <p className="text-gray-600">

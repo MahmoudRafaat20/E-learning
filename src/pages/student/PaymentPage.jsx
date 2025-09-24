@@ -6,13 +6,15 @@ import {
   FaPaypal,
   FaGooglePay,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const PaymentPage = (lesson) => {
   const [country, setCountry] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("");
- 
-  
+
+  const location = useLocation();
+  const { lesson } = location.state || {};
+
   return (
     <>
       <div className="max-w-6xl mx-auto p-6 flex flex-col lg:flex-row gap-6">
@@ -49,36 +51,36 @@ const PaymentPage = (lesson) => {
             <div className="grid grid-cols-2 gap-4 mb-6">
               <button
                 onClick={() => setSelectedMethod("card")}
-                className={`flex items-center justify-center p-4 border rounded-lg shadow-sm hover:shadow-md transition ${
+                className={`flex items-center justify-center p-4 border hover:cursor-pointer rounded-lg shadow-sm hover:shadow-md transition ${
                   selectedMethod === "card"
                     ? "border-blue-500"
                     : "border-gray-300"
                 }`}
               >
-                <FaCcVisa className="text-3xl text-blue-600 hover: cursor-pointer" />
-                <FaCcMastercard className="text-3xl text-red-500 ml-2 hover: cursor-pointer" />
+                <FaCcVisa className="text-3xl text-blue-600" />
+                <FaCcMastercard className="text-3xl text-red-500 ml-2" />
               </button>
 
               <button
                 onClick={() => setSelectedMethod("paypal")}
-                className={`flex items-center justify-center p-4 border rounded-lg shadow-sm hover:shadow-md transition ${
+                className={`flex items-center justify-center p-4 border hover:cursor-pointer rounded-lg shadow-sm hover:shadow-md transition ${
                   selectedMethod === "paypal"
                     ? "border-blue-500"
                     : "border-gray-300"
                 }`}
               >
-                <FaPaypal className="text-3xl text-blue-700 hover: cursor-pointer" />
+                <FaPaypal className="text-3xl text-blue-700 hover:cursor-pointer" />
               </button>
 
               <button
                 onClick={() => setSelectedMethod("google")}
-                className={`flex items-center justify-center p-4 border rounded-lg shadow-sm hover:shadow-md transition ${
+                className={`flex items-center justify-center p-4 border hover:cursor-pointer rounded-lg shadow-sm hover:shadow-md transition ${
                   selectedMethod === "google"
                     ? "border-blue-500"
                     : "border-gray-300"
                 }`}
               >
-                <FaGooglePay className="text-3xl text-green-600 hover: cursor-pointer" />
+                <FaGooglePay className="text-3xl text-green-600 hover:cursor-pointer" />
               </button>
             </div>
 
@@ -111,7 +113,7 @@ const PaymentPage = (lesson) => {
             )}
 
             {selectedMethod === "paypal" && (
-              <div className="space-y-4">
+              <div className="space-y-4 ">
                 <input
                   type="email"
                   placeholder="PayPal Email"
@@ -139,15 +141,15 @@ const PaymentPage = (lesson) => {
           </h3>
 
           <div className="flex justify-between mb-2 text-black">
-            <span className="text-black">Lesson Course </span>
-            <span>$45</span>
+            <span className="text-black">{lesson?.title}</span>
+            <span>{lesson?.price}</span>
           </div>
 
           <hr className="my-3 text-gray-400" />
 
           <div className="flex justify-between font-bold text-black">
-            <span>Total (1 Course) : </span>
-            <span>$45</span>
+            <span>Total ({lesson?.title}) : </span>
+            <span>{lesson?.price}</span>
           </div>
           <div>
             <p className="text-gray-500 text-xs mt-5">
@@ -164,7 +166,7 @@ const PaymentPage = (lesson) => {
             </p>
           </div>
 
-          <button className="mt-6 w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">
+          <button className="mt-6 w-full bg-green-600 text-white hover:cursor-pointer py-2 rounded-md hover:bg-green-700 transition">
             Place Order
           </button>
         </div>
