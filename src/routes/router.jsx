@@ -9,7 +9,7 @@ import Register from "../pages/auth/Register";
 import StudentHome from "../pages/student/StudentHome";
 import Exams from "../pages/student/Exams";
 import Profile from "../pages/student/Profile";
-import LessonsList from "../pages/student/LessonsList";
+
 import PaymentPage from "../pages/student/PaymentPage";
 
 import AdminDashboard from "../pages/admin/AdminDashboard";
@@ -24,6 +24,7 @@ import SuperLessons from "../pages/superadmin/SuperLessons";
 import SuperExams from "../pages/superadmin/SuperExams";
 import SuperQuestions from "../pages/superadmin/SuperQuestions";
 import AllAdmins from "../pages/superadmin/AllAdmins";
+import LessonsList from "../pages/student/lessonsList";
 
 const router = createBrowserRouter([
   // Auth area
@@ -77,7 +78,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "payment/:lessonId",
+            path: "lessons/payment/:lessonId",
             element: (
               <PrivateRoute allow={["student"]}>
                 <PaymentPage />

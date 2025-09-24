@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 const LessonModal = ({ lesson, isOpen, onClose }) => {
   const navigate = useNavigate();
   const [showVideo, setShowVideo] = useState(false);
+console.log(lesson);
 
   if (!isOpen || !lesson) return null;
 
   const handleWatchVideo = () => {
     if (lesson.isPaid) {
       // إذا كان مدفوعاً، الانتقال لصفحة الدفع
-      navigate(`/payment/${lesson._id}`);
+      navigate(`student/lessons/payment/:${lesson._id}`);
       onClose();
     } else if (!lesson.isPaid) {
       // إذا كان مجانياً وله لينك يوتيوب، يفتحه في tab جديد
@@ -23,7 +24,9 @@ const LessonModal = ({ lesson, isOpen, onClose }) => {
   };
 
   const handleEnroll = () => {
-    navigate(`/payment/${lesson._id}`);
+    navigate(`/student/lessons/payment/:${lesson._id}`);
+    console.log(lesson._id);
+    
     onClose();
   };
 

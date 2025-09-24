@@ -8,9 +8,11 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const PaymentPage = () => {
+const PaymentPage = (lesson) => {
   const [country, setCountry] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("");
+ 
+  
   return (
     <>
       <div className="max-w-6xl mx-auto p-6 flex flex-col lg:flex-row gap-6">
