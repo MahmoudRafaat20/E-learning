@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 const LessonModal = ({ lesson, isOpen, onClose }) => {
   const navigate = useNavigate();
   const [showVideo, setShowVideo] = useState(false);
-  console.log(lesson);
+
+console.log(lesson);
 
   if (!isOpen || !lesson) return null;
 
@@ -26,6 +27,7 @@ const LessonModal = ({ lesson, isOpen, onClose }) => {
   const handleEnroll = () => {
     navigate(`/student/lessons/payment/:${lesson._id}`, { state: { lesson } });
     console.log(lesson._id);
+
 
     onClose();
   };

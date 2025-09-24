@@ -8,11 +8,13 @@ import {
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 
-const PaymentPage = () => {
+const PaymentPage = (lesson) => {
   const [country, setCountry] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("");
+
   const location = useLocation();
   const { lesson } = location.state || {};
+
   return (
     <>
       <div className="max-w-6xl mx-auto p-6 flex flex-col lg:flex-row gap-6">
