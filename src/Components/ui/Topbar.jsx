@@ -113,7 +113,7 @@ export default function Topbar() {
         {/* Left: Burger + Brand + Desktop Nav */}
         <div className="flex items-center gap-3">
           <button
-            className="lg:hidden p-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
+            className="lg:hidden p-2 rounded-xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
             onClick={() => setOpen((o) => !o)}
             aria-label="Toggle menu">
             <Menu size={18} />
@@ -134,7 +134,7 @@ export default function Topbar() {
                 to={it.to}
                 className={({ isActive }) =>
                   cx(
-                    "px-3 py-2 rounded-xl text-sm transition group",
+                    "px-3 py-2 rounded-xl text-sm transition group dark:text-zinc-100",
                     "hover:bg-zinc-100/80 dark:hover:bg-zinc-900/70",
                     "border border-transparent hover:border-zinc-200/60 dark:hover:border-zinc-800/60",
                     isActive &&
@@ -154,13 +154,13 @@ export default function Topbar() {
         {/* Middle: Search */}
         <div className="hidden md:flex items-center flex-1 max-w-sm mx-3">
           <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4  text-zinc-500 dark:text-zinc-100" />
             <input
               ref={searchRef}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search…  (press /)"
-              className="w-full pl-9 pr-10 py-2 rounded-xl text-sm border border-zinc-200 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-900/60 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+              className="w-full pl-9 pr-10 py-2 rounded-xl text-sm border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-900/60 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
             />
             {query && (
               <button
@@ -186,7 +186,7 @@ export default function Topbar() {
 
           {/* Search button (mobile) */}
           <button
-            className="md:hidden p-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
+            className="md:hidden p-2 rounded-xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
             onClick={() => setTrayOpen(true)}
             aria-label="Open search">
             <Search size={18} />
@@ -195,7 +195,7 @@ export default function Topbar() {
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
+            className="p-2 rounded-xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
             aria-label="Toggle theme"
             title={theme === "dark" ? "Switch to light" : "Switch to dark"}>
             {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
@@ -203,7 +203,7 @@ export default function Topbar() {
 
           {/* Notifications */}
           <button
-            className="p-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70 relative"
+            className="p-2 rounded-xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70 relative"
             aria-label="Notifications">
             <Bell size={18} />
             <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-rose-500 ring-2 ring-white dark:ring-zinc-950" />
@@ -213,7 +213,7 @@ export default function Topbar() {
           <div className="relative">
             <button
               onClick={() => setTrayOpen((v) => !v)}
-              className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
+              className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-2xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
               aria-haspopup="menu"
               aria-expanded={trayOpen}>
               <Avatar name={user?.name} email={user?.email} />
@@ -224,7 +224,7 @@ export default function Topbar() {
             {trayOpen && (
               <div
                 role="menu"
-                className="absolute right-0 mt-2 w-56 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl shadow-lg p-2">
+                className="absolute right-0 mt-2 w-56 rounded-2xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl shadow-lg p-2">
                 <div className="px-2 py-2 text-sm text-zinc-600 dark:text-zinc-300">
                   <div className="font-medium text-zinc-900 dark:text-zinc-100">
                     {user?.name || user?.email || "User"}
@@ -259,23 +259,23 @@ export default function Topbar() {
       {/* Mobile search sheet */}
       <div
         className={cx(
-          "fixed inset-0 z-[60] md:hidden transition",
+          "fixed inset-0 z-[60]  dark:text-zinc-100 md:hidden transition",
           trayOpen ? "visible" : "invisible"
         )}
         onClick={() => setTrayOpen(false)}>
         <div
           className={cx(
-            "absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity",
+            "absolute inset-0 dark:text-zinc-100 bg-black/40 backdrop-blur-sm transition-opacity",
             trayOpen ? "opacity-100" : "opacity-0"
           )}
         />
         <div
           className={cx(
-            "absolute inset-x-0 top-0 p-3 transition-transform",
+            "absolute inset-x-0 dark:text-zinc-100 top-0 p-3 transition-transform",
             trayOpen ? "translate-y-0" : "-translate-y-6"
           )}
           onClick={(e) => e.stopPropagation()}>
-          <div className="mx-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl p-3 shadow-xl">
+          <div className="mx-3 rounded-2xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl p-3 shadow-xl">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
               <input
@@ -293,17 +293,17 @@ export default function Topbar() {
 
       {/* Mobile nav drawer */}
       {open && (
-        <div className="lg:hidden border-t border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-xl">
-          <div className="px-3 py-2 flex flex-col gap-1">
+        <div className="lg:hidden border-t dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-xl">
+          <div className="px-3 py-2 flex flex-col gap-1 ">
             {items.map((it) => (
               <NavLink
                 key={it.to}
                 to={it.to}
                 className={({ isActive }) =>
                   cx(
-                    "rounded-xl px-3 py-2 text-sm",
+                    "rounded-xl px-3 py-2 text-sm dark:text-zinc-100",
                     "hover:bg-zinc-100/80 dark:hover:bg-zinc-900/70",
-                    isActive && "bg-zinc-100/80 dark:bg-zinc-900/70"
+                    isActive && "bg-zinc-100/80  dark:bg-zinc-900/70"
                   )
                 }>
                 {it.label}
@@ -313,7 +313,7 @@ export default function Topbar() {
             <div className="mt-2 flex items-center gap-2">
               <button
                 onClick={toggleTheme}
-                className="flex-0 p-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
+                className="flex-0 p-2 rounded-xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70"
                 aria-label="Toggle theme">
                 {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
               </button>
@@ -321,13 +321,13 @@ export default function Topbar() {
               {user?.token ? (
                 <button
                   onClick={logout}
-                  className="flex-1 rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-2 text-sm">
+                  className="flex-1 rounded-xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 px-3 py-2 text-sm">
                   Logout
                 </button>
               ) : (
                 <Link
                   to="/login"
-                  className="flex-1 rounded-xl border border-zinc-200 dark:border-zinc-800 px-3 py-2 text-sm">
+                  className="flex-1 rounded-xl border dark:text-zinc-100 border-zinc-200 dark:border-zinc-800 px-3 py-2 text-sm">
                   Login
                 </Link>
               )}

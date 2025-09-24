@@ -15,22 +15,38 @@ export default function Reports() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Reports</h1>
+      <h1 className="text-2xl font-semibold dark:text-zinc-100">Reports</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Stat
           title="MRR (June)"
           value={`$${revenue[revenue.length - 1].value}`}
+          className="dark:text-zinc-100"
         />
-        <Stat title="6-mo Revenue" value={`$${total}`} />
-        <Stat title="Active Lessons" value="50" />
-        <Stat title="Avg. Lesson Price" value="$18.5" />
+        <Stat
+          title="6-mo Revenue"
+          value={`$${total}`}
+          className="dark:text-zinc-100"
+        />
+        <Stat
+          title="Active Lessons"
+          value="50"
+          className="dark:text-zinc-100"
+        />
+        <Stat
+          title="Avg. Lesson Price"
+          value="$18.5"
+          className="dark:text-zinc-100"
+        />
       </div>
 
       <section>
-        <h2 className="font-semibold mb-3">Revenue by Month</h2>
+        <h2 className="font-semibold mb-3 dark:text-zinc-100">
+          Revenue by Month
+        </h2>
         <Table
           columns={["Month", "Revenue", "Progress"]}
+          className="dark:text-zinc-100"
           rows={revenue.map((r) => [
             r.month,
             `$${r.value}`,

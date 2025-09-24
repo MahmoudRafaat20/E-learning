@@ -8,21 +8,27 @@ export default function Profile() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Your Profile</h1>
+      <h1 className="text-2xl font-semibold dark:text-zinc-100">
+        Your Profile
+      </h1>
 
       <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-5">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <div className="text-sm text-zinc-500">Email</div>
-            <div className="font-medium break-all">{user?.email ?? "—"}</div>
+            <div className="font-medium break-all dark:text-zinc-100">
+              {user?.email ?? "—"}
+            </div>
           </div>
           <div>
             <div className="text-sm text-zinc-500">Role</div>
             <div className="flex items-center gap-3">
-              <span className="font-medium capitalize">{role}</span>
+              <span className="font-medium capitalize dark:text-zinc-100">
+                {role}
+              </span>
               {typeof setRole === "function" && (
                 <select
-                  className="rounded-xl border border-zinc-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm"
+                  className="rounded-xl border dark:text-zinc-100 border-zinc-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   aria-label="Switch role (dev)">
@@ -36,7 +42,10 @@ export default function Profile() {
         </div>
 
         <div className="mt-6 flex gap-2">
-          <Button variant="outline" onClick={logout}>
+          <Button
+            variant="outline"
+            onClick={logout}
+            className="dark:text-zinc-100">
             Sign out
           </Button>
         </div>

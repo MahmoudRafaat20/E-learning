@@ -17,19 +17,28 @@ export default function SuperAdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Super Admin</h1>
+      <h1 className="text-2xl font-semibold dark:text-zinc-100">Super Admin</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Stat title="Total Admins" value={admins.length} />
-        <Stat title="Total Students" value="120" />
-        <Stat title="Total Lessons" value="50" />
-        <Stat title="Revenue" value="$5000" />
+        <Stat
+          title="Total Admins"
+          value={admins.length}
+          className="dark:text-zinc-100"
+        />
+        <Stat
+          title="Total Students"
+          value="120"
+          className="dark:text-zinc-100"
+        />
+        <Stat title="Total Lessons" value="50" className="dark:text-zinc-100" />
+        <Stat title="Revenue" value="$5000" className="dark:text-zinc-100" />
       </div>
 
       <section>
-        <h2 className="font-semibold mb-3">Manage Admins</h2>
+        <h2 className="font-semibold mb-3 dark:text-zinc-100">Manage Admins</h2>
         <Table
           columns={["ID", "Name", "Email", "Actions"]}
+          className="dark:text-zinc-100"
           rows={admins.map((a) => [
             `#${a.id}`,
             a.name,

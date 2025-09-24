@@ -40,7 +40,7 @@ export default function Exams() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Exams</h1>
+      <h1 className="text-2xl font-semibold dark:text-zinc-100">Exams</h1>
 
       <Alert variant="info" title="Heads up">
         You can retry available exams anytime. Locked exams are restricted until
@@ -49,6 +49,7 @@ export default function Exams() {
 
       <Table
         columns={["ID", "Title", "Duration", "Questions", "Status", "Actions"]}
+        className="dark:text-zinc-100"
         rows={exams.map((e) => [
           `#${e.id}`,
           e.title,
@@ -56,9 +57,9 @@ export default function Exams() {
           e.questions,
           <span
             key={`s-${e.id}`}
-            className={
-              e.status === "locked" ? "text-red-600" : "text-green-600"
-            }>
+            className={`dark:text-zinc-100 
+              ${e.status === "locked" ? "text-red-600" : "text-green-600"}
+            `}>
             {e.status}
           </span>,
           <div key={`a-${e.id}`} className="flex gap-2">
