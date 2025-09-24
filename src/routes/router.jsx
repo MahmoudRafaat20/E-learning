@@ -102,7 +102,7 @@ const router = createBrowserRouter([
           {
             path: "lessons",
             element: (
-              <PrivateRoute allow={["student", "admin", "superadmin"]}>
+              <PrivateRoute allow={[ "admin", "superadmin"]}>
                 <AdminLessons />
               </PrivateRoute>
             ),
